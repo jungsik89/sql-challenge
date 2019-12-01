@@ -1,0 +1,116 @@
+-- DROP TABLE IF EXISTS DEPARTMENTS;
+-- DROP TABLE IF EXISTS DEPT_EMPLOYEES;
+-- DROP TABLE IF EXISTS EMPLOYEES;
+-- DROP TABLE IF EXISTS MANAGERS;
+-- DROP TABLE IF EXISTS SALARY;
+-- DROP TABLE IF EXISTS TITLE;
+
+-- CREATE TABLE EMPLOYEES(
+--     emp_no VARCHAR,
+--     birth_date DATE,
+--     first_name VARCHAR,
+-- 	last_name VARCHAR,
+-- 	gender VARCHAR,
+-- 	hire_date DATE,
+-- 	PRIMARY KEY(emp_no)
+-- );
+
+-- CREATE TABLE DEPARTMENTS (
+-- 	dept_no VARCHAR,
+-- 	dept_name VARCHAR,
+-- 	PRIMARY KEY(dept_no)
+-- );
+-- CREATE TABLE DEPT_EMPLOYEES (
+--     emp_no VARCHAR,
+--     dept_no VARCHAR,
+--     from_date DATE,
+--     to_date DATE,
+-- 	FOREIGN KEY (emp_no) REFERENCES EMPLOYEES (emp_no)
+-- );
+-- CREATE TABLE MANAGERS(
+--     dept_no VARCHAR,
+--     emp_no VARCHAR,
+--     from_date DATE,
+--     to_date DATE,
+-- 	FOREIGN KEY (dept_no) REFERENCES DEPARTMENTS (dept_no),
+-- 	FOREIGN KEY (emp_no) REFERENCES EMPLOYEES (emp_no)
+-- );
+
+-- CREATE TABLE SALARY(
+--     emp_no VARCHAR,
+--     salary INTEGER,
+--     from_date DATE,
+-- 	to_date DATE,
+-- 	FOREIGN KEY (emp_no) REFERENCES EMPLOYEES (emp_no)
+-- );
+-- CREATE TABLE TITLE(
+--     emp_no VARCHAR,
+--     title VARCHAR,
+--     from_date DATE,
+-- 	to_date DATE,
+-- 	FOREIGN KEY (emp_no) REFERENCES EMPLOYEES (emp_no)
+-- );
+
+SELECT COUNT(*)
+FROM EMPLOYEES
+
+--Question 1
+SELECT EMPLOYEES.emp_no,last_name,first_name,gender,SALARY.salary
+FROM EMPLOYEES
+INNER JOIN SALARY ON EMPLOYEES.emp_no = SALARY.emp_no
+ORDER BY EMPLOYEES.emp_no ASC;
+
+--Question 2
+SELECT *
+FROM EMPLOYEES
+WHERE hire_date BETWEEN '1986-01-01' AND NOW()
+ORDER BY emp_no ASC;
+
+MANAGERS.dept_no,MANAGERS.emp_no,EMPLOYEES.last_name,EMPLOYEES.first_name,EMPLOYEES.from_date,EMPLOYEES.to_date
+
+
+--Question 3
+SELECT MANAGERS.dept_no,DEPARTMENTS.dept_name,MANAGERS.emp_no,EMPLOYEES.last_name,EMPLOYEES.first_name, MANAGERS.from_date, MANAGERS.to_date
+FROM EMPLOYEES
+INNER JOIN MANAGERS ON EMPLOYEES.emp_no = MANAGERS.emp_no
+INNER JOIN DEPARTMENTS ON MANAGERS.dept_no = DEPARTMENTS.dept_no;
+
+--Question 4
+SELECT DEPT_EMPLOYEES.emp_no,EMPLOYEES.last_name,EMPLOYEES.first_name, DEPARTMENTS.dept_name
+FROM EMPLOYEES
+INNER JOIN DEPT_EMPLOYEES ON EMPLOYEES.emp_no = DEPT_EMPLOYEES.emp_no
+INNER JOIN DEPARTMENTS ON DEPT_EMPLOYEES.dept_no = DEPARTMENTS.dept_no
+ORDER BY DEPT_EMPLOYEES.emp_no;
+
+--Question 5
+SELECT * 
+FROM EMPLOYEES
+WHERE first_name = 'Hercules' AND last_name ILIKE 'B%'
+ORDER BY emp_no ASC;
+	
+--Question 6
+SELECT DEPT_EMPLOYEES.emp_no,EMPLOYEES.last_name,EMPLOYEES.first_name, DEPARTMENTS.dept_name
+FROM EMPLOYEES
+INNER JOIN DEPT_EMPLOYEES ON EMPLOYEES.emp_no = DEPT_EMPLOYEES.emp_no
+INNER JOIN DEPARTMENTS ON DEPT_EMPLOYEES.dept_no = DEPARTMENTS.dept_no
+WHERE DEPARTMENTS.dept_name = 'Sales';
+
+--Question 7
+SELECT DEPT_EMPLOYEES.emp_no,EMPLOYEES.last_name,EMPLOYEES.first_name, DEPARTMENTS.dept_name
+FROM EMPLOYEES
+INNER JOIN DEPT_EMPLOYEES ON EMPLOYEES.emp_no = DEPT_EMPLOYEES.emp_no
+INNER JOIN DEPARTMENTS ON DEPT_EMPLOYEES.dept_no = DEPARTMENTS.dept_no
+WHERE DEPARTMENTS.dept_name = 'Sales' OR DEPARTMENTS.dept_name = 'Development';
+
+--Question 8
+SELECT EMPLOYEES.last_name, COUNT(EMPLOYEES.last_name) as total_count
+FROM EMPLOYEES
+GROUP BY EMPLOYEES.last_name
+ORDER BY total_count DESC;
+
+
+
+SELECT * FROM DEPARTMENTs
+SELECT * FROM Employees
+
+
